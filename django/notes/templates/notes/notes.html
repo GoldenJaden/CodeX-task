@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% for note in Notes %}
+
+<div class="note">
+_________________________________
+    <p> {{ note.title }} </p>
+    <p> {{ note.description }} </p>
+    <p>
+    <strong><a href="{% url 'update-note' note.id %}"> Редактировать </a></strong>
+    <strong><a href={% url 'delete-note' note.id %}> Удалить </a></strong>
+    </p>
+    <p>Created {{ note.created }}</p>
+_________________________________
+</div>
+
+{% endfor %}
+
+{% endblock content %}
+
