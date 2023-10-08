@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django_prometheus.models import ExportModelOperationsMixin
 import uuid
 
     
-class Note(models.Model):
+class Note(ExportModelOperationsMixin('note'), models.Model):
     owner = models.ForeignKey(
         User, null=True, blank=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=200)
