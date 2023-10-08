@@ -9,12 +9,8 @@ services:
       - '8000:8000'
     depends_on:
       - db
-    environment:
-      POSTGRES_HOST: db
-      POSTGRES_USER: root
-      POSTGRES_PORT: 5432
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: postgres
+    env_file:
+      - env/django.env
 
   db:
     image: postgres
@@ -22,12 +18,27 @@ services:
     container_name: postgres
     ports:
       - '5432:5432'
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_USER: root
-      POSTGRES_DB: postgres
+    env_file:
+      - env/postgres.env
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    ports:
+      - '9090:9090'
+
+  grafana:
+    image: grafana/grafana:8.5.3-ubuntu
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - grafana-configs:/etc/grafana
+
 volumes:
   postgres_data:
+  grafana-data:
+  grafana-configs:

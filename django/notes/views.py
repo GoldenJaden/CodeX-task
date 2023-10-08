@@ -5,7 +5,8 @@ from .forms import NoteForm
 from django.contrib import messages
 
 
-
+def mainPage(request):
+    return HttpResponse('Main Page')
 
 def notes(request):
     ctx = {'Notes': Note.objects.all(),}
@@ -37,3 +38,22 @@ def deleteNote(request, pk):
         return redirect('notes')
     ctx = {'note': note}
     return render(request, "notes/delete_note.html", ctx)
+
+
+def createNote(request):
+    user = request.user
+    form = NoteForm()
+
+    if request.method == "POST":
+        form = NoteForm(request.POST, request.FILES)
+        if form.is_valid():
+            note = form.save(commit=False)
+            note.owner = user
+            note.save()
+            messages.success(request, 'Note was created successfully!') 
+            return redirect('notes')
+
+    ctx = {'form': form}
+    return render(request, "notes/note_form.html", ctx)
+
+
