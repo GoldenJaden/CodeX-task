@@ -2,6 +2,12 @@
 
 {% block content %}
 
+<div align="center"><a href={% url 'create-note' %}>Создать заметку</a></div>
+
+{% for msg in messages %}
+    {{ msg }}
+{% endfor %}
+
 {% for note in Notes %}
 
 <div class="note">

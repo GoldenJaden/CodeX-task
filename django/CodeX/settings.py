@@ -12,13 +12,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
-import socket
 db_host = os.environ.get('POSTGRES_HOST')
 db_user = os.environ.get('POSTGRES_USER')
 db_port = os.environ.get('POSTGRES_PORT')
 db_password = os.environ.get('POSTGRES_PASSWORD')
 db_name = os.environ.get('POSTGRES_DB')
-local_ip = socket.gethostbyname(socket.gethostname())
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -34,7 +32,7 @@ SECRET_KEY = 'django-insecure-h+(#7$%q9(_7qp9=85iz(l*fh%fuu$9n9&g#rqv7mqavj9(g1r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', str(local_ip)]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'backend']
 
 
 # Application definition
@@ -47,10 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'notes.apps.NotesConfig'
+    'notes.apps.NotesConfig',
+    'django_prometheus'
 ]
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -58,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'CodeX.urls'
@@ -133,6 +134,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+MEDIA_URL = '/images/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
