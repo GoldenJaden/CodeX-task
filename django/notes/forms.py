@@ -6,7 +6,7 @@ from .models import Note
 class NoteForm(ModelForm):
     class Meta:
         model = Note
-        fields = ['title', 'featured_image', 'description']
+        fields = ['title', 'description']
 
     def __init__(self, *args, **kwargs):
         super(NoteForm, self).__init__(*args, **kwargs)
