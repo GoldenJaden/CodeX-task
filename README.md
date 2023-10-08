@@ -22,6 +22,6 @@ python manage.py migrate
 ```
 
 Адреса сервисов:
-* https://localhost:8000 - *Django* сервис заметок
+* https://localhost:8000/notes - *Django* сервис заметок
 * https://localhost:9090 - *Prometheus*, сбор метрик
-* https://localhost:3000 - Визуализация метрик с помощью *Grafana*
+* https://localhost:3000 - Визуализация метрик с помощью *Grafana* (Логин: admin Пароль: admin)
